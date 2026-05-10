@@ -6,7 +6,6 @@
       <li v-for="tracker in trackers" :key="tracker.id" class="tracker-card">
         <h3>{{ tracker.name }}</h3>
         <p>Kategorie: {{ tracker.category }}</p>
-        <p>Typ: {{ tracker.targetType }}</p>
       </li>
     </ul>
   </section>
@@ -21,26 +20,22 @@ export default {
         {
           id: 1,
           name: 'Lesen',
-          category: 'Bildung',
-          targetType: 'BOOLEAN'
+          category: 'Bildung'
         },
         {
           id: 2,
           name: '10.000 Schritte',
-          category: 'Fitness',
-          targetType: 'NUMBER'
+          category: 'Fitness'
         },
         {
           id: 3,
           name: 'Gym',
-          category: 'Fitness',
-          targetType: 'BOOLEAN'
+          category: 'Fitness'
         },
         {
           id: 4,
           name: 'Wasser trinken',
-          category: 'Gesundheit',
-          targetType: 'NUMBER'
+          category: 'Gesundheit'
         }
       ]
     }
