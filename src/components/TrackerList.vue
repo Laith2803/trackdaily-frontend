@@ -2,7 +2,10 @@
   <section class="tracker-section">
     <h2>Meine Tracker</h2>
 
-    <ul class="tracker-list">
+    <p v-if="loading">Tracker werden geladen...</p>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
+    <ul v-if="!loading && !errorMessage" class="tracker-list">
       <li v-for="tracker in trackers" :key="tracker.id" class="tracker-card">
         <h3>{{ tracker.name }}</h3>
         <p>Kategorie: {{ tracker.category }}</p>
@@ -16,29 +19,28 @@ export default {
   name: 'TrackerList',
   data() {
     return {
-      trackers: [
-        {
-          id: 1,
-          name: 'Lesen',
-          category: 'Bildung'
-        },
-        {
-          id: 2,
-          name: '10.000 Schritte',
-          category: 'Fitness'
-        },
-        {
-          id: 3,
-          name: 'Gym',
-          category: 'Fitness'
-        },
-        {
-          id: 4,
-          name: 'Wasser trinken',
-          category: 'Gesundheit'
-        }
-      ]
+      trackers: [],
+      loading: true,
+      errorMessage: ''
     }
+  },
+  mounted() {
+    fetch('https://trackdaily-backend.onrender.com/api/trackers')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Backend konnte nicht geladen werden')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        this.trackers = data
+      })
+      .catch(() => {
+        this.errorMessage = 'Tracker konnten nicht geladen werden.'
+      })
+      .finally(() => {
+        this.loading = false
+      })
   }
 }
 </script>
@@ -68,5 +70,9 @@ export default {
 
 .tracker-card p {
   margin: 4px 0;
+}
+
+.error {
+  color: darkred;
 }
 </style>
